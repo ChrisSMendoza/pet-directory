@@ -25,14 +25,16 @@ export function UserSearchCombobox() {
         <fetcher.Form method="get" action="/search">
             <label>Search</label>
             <input type="text" name="q" />
+            <button>Run task</button>
         </fetcher.Form>
 
         {fetcher.data && (
-            <ul>
-            {fetcher.data.map((user) => (
-                <li key={user.id}>{user.name}</li>
-            ))}
-            </ul>
+            <pre>
+                {fetcher.data.message.body}
+                {fetcher.data.message.status}
+                {fetcher.data.message.errorCode}
+                {fetcher.data.message.errorMessage}
+            </pre>
         )}
       </div>
     );

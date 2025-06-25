@@ -1,3 +1,5 @@
+import twilio from "twilio";
+
 
 const users = [
     { id: 1, name: "Ryan" },
@@ -7,14 +9,18 @@ const users = [
   
   // @ts-expect-error Type needs to be set, use Node types?
   export async function loader({ request }) {
-    let url = new URL(request.url);
-    let query = url.searchParams.get("q");
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const twilioAPI = twilio(accountSid, authToken);
 
-    if(query === null || query === "") {
-        return users;
-    }
+    const fromPhoneNumber = "+18666257307";
+    const toPhoneNumber = "+18777804236";
 
-    return users.filter((user) =>
-      user.name.toLowerCase().includes(query.toLowerCase())
-    );
+    const message = await twilioAPI.messages.create({
+      body: "From Pet Directory Admin Console - Will be 'Found pet' notification",
+      from: fromPhoneNumber,
+      to: toPhoneNumber,
+    });
+  
+    return { message };
   }
