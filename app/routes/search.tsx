@@ -1,12 +1,5 @@
 import twilio from "twilio";
 
-
-const users = [
-    { id: 1, name: "Ryan" },
-    { id: 2, name: "Michael" },
-    // ...
-  ];
-  
   // @ts-expect-error Type needs to be set, use Node types?
   export async function loader({ request }) {
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
