@@ -21,6 +21,7 @@ export async function loader({ request }: { request: Request }) {
     }
 
     if(!missingPetId) {
+
         return { message: "Missing pet ID was not provided in request form data."}
     }
 
@@ -62,9 +63,6 @@ export async function loader({ request }: { request: Request }) {
         return { message: { body, status, from, to, dateCreated }};
     }
 
-    if(TWILIO_ENV === "dev") {
-        return { message: notifyOwnerMessage, isTest: true };
-    }
-
-    return { message: "Unknown SMS environment"}
+    // ASSUMING DEV ENVIRONMENT! (Less types for message in response (like "unknown SMS env"), which we're missing out on? How do we know for sure??
+    return { message: notifyOwnerMessage, SMS_ENV: TWILIO_ENV }
 }
