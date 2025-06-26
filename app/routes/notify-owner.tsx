@@ -31,11 +31,11 @@ export async function loader({ request }: { request: Request }) {
     const owner = findOwnerById(ownerId);
 
     if(!owner) {
-        return { message: `Owner with ID, ${ownerId}, was not found.`}
+        throw Error(`Owner with ID, ${ownerId}, was not found.`);
     }
 
     if(owner.missingPet === null || owner.missingPet.id !== Number(missingPetId)) {
-        return { message: "No missing pet tied to user, or it didn't match the provided Missing Pet ID"}
+        throw Error("No missing pet tied to user, or it didn't match the provided Missing Pet ID");
     }
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
