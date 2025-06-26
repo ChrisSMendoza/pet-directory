@@ -45,14 +45,20 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 </notifyOwnerFetch.Form>
 
                 {notifyOwnerFetch.data && (
-                    <>
-                        <p>{notifyOwnerFetch.data.message.body}</p>
-                        <p>{notifyOwnerFetch.data.message.dateCreated.toDateString()}</p>
-                        <p>{notifyOwnerFetch.data.message.to}</p>
-                        <p>{notifyOwnerFetch.data.message.from}</p>
+                    // From https://v1.tailwindcss.com/components/alerts#titled
+                    <div role="alert">
+                        <div className="bg-teal-500 text-white font-bold rounded-t px-4 py-2">
+                        Owner notified
+                        </div>
+                        <div className="border border-t-0 border-teal-400 rounded-b bg-teal-100 px-4 py-3 text-teal-700">
+                            <p>{notifyOwnerFetch.data.message.body}</p>
+                            <p>{notifyOwnerFetch.data.message.dateCreated.toDateString()}</p>
+                            <p>{notifyOwnerFetch.data.message.to}</p>
+                            <p>{notifyOwnerFetch.data.message.from}</p>
 
-                        {/* Omit `status` */}
-                    </>
+                            {/* Omit `status` */}
+                        </div>
+                  </div>
                 )}
             </body>
         )
