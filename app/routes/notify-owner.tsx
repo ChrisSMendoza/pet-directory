@@ -1,16 +1,20 @@
+import { data } from "react-router";
 import twilio from "twilio";
 
 import { findOwnerById } from "~/mocks/owners";
 
-
+// Notify owner "request handler"
+// Find owner, validate missing pet, notify via SMS
 export async function loader({ request }: { request: Request}) {
     let url = new URL(request.url);
     let ownerId = url.searchParams.get("ownerId");
     let missingPetId = url.searchParams.get("missingPetId");
 
     if(!ownerId) {
-        return { message: "Owner ID was not provided in request form data."}
+        // TODO?: Attach `ownerId`?
+        throw data("Owner ID was not provided in request form data.", { status: 404 });
     }
+
     if(!missingPetId) {
         return { message: "Missing pet ID was not provided in request form data."}
     }
