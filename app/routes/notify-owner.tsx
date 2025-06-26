@@ -63,8 +63,7 @@ export async function loader({ request }: { request: Request }) {
     }
 
     if(TWILIO_ENV === "dev") {
-        // TODO: Update to use notifyOwnerMessage
-        return { message: `Notify owner (ID: ${ownerId}) via SMS that pet with ID ${missingPetId} was found!`, isTest: true };
+        return { message: notifyOwnerMessage, isTest: true };
     }
 
     return { message: "Unknown SMS environment"}
