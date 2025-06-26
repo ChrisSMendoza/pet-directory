@@ -5,5 +5,5 @@ export default [
 
     route("admin", "routes/admin.tsx"),
     route("search", "routes/search.tsx"),
-    route("owner", "routes/owner.tsx")
+    route("owners/:ownerId", "routes/owner.tsx")
 ] satisfies RouteConfig;

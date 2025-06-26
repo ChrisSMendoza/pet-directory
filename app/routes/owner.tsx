@@ -8,10 +8,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Owner() {
-  return (
-    <body>
-        <h1>Owner</h1>
-    </body>
-  )
-}
+export default function Owner({ params }: Route.ComponentProps) {
+    return (
+        <body>
+            <h1>Owner ({params.ownerId})</h1>
+        </body>
+      )
+  }
