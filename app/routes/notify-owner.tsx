@@ -3,8 +3,6 @@ import twilio from "twilio";
 
 import { findOwnerById } from "~/mocks/owners";
 
-// TODO: Get from .env?
-const TWILIO_ENV: "dev" | "production" = "dev";
 
 // TODO: How we can we verify this is the right owner and pet? Like we can't trust the form right? Unless it has some timed hash? JWT?
 // Notify owner "request handler"
@@ -57,7 +55,7 @@ export async function loader({ request }: { request: Request }) {
         to: toPhoneNumber,
     };
     // TODO: Just depend on our env? Like dev shouldn't be charging anyway..?
-    if(TWILIO_ENV === "production") {
+    if(process.env.TWILIO_ENV === "production") {
         const message = await twilioAPI.messages.create(notifyOwnerMessage);
         // TODO: To avoid `message` being returned, causes "cyclic object being serialized"
         const { body, status, from, to, dateCreated } = message;
@@ -68,7 +66,7 @@ export async function loader({ request }: { request: Request }) {
     }
 
     // ASSUMING DEV ENVIRONMENT! (Less types for message in response (like "unknown SMS env"), which we're missing out on? How do we know for sure??
-    return { message: { ...notifyOwnerMessage, dateCreated: new Date(), status: 'queued' }, SMS_ENV: TWILIO_ENV }
+    return { message: { ...notifyOwnerMessage, dateCreated: new Date(), status: 'queued' }, SMS_ENV: process.env.TWILIO_ENV }
 }
 
 
