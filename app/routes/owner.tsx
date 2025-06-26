@@ -51,8 +51,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function Owner({ loaderData, params }: Route.ComponentProps) {
     const { owner } = loaderData;
 
-    let fetcher = useFetcher<typeof notifyOwnerLoader>();
-    
+    let notifyOwnerFetch = useFetcher<typeof notifyOwnerLoader>();
+
     if(owner) {
         return (
             <body>
@@ -65,14 +65,14 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 <p>{owner.missingPet?.name}</p>
                 <p>{owner.missingPet?.age}</p>
 
-                <fetcher.Form method="get" action="/notify">
+                <notifyOwnerFetch.Form method="get" action="/notify">
                     <input type="hidden" name="ownerId" value={owner.id} />
                     <input type="hidden" name="missingPetId" value={owner.missingPet?.id} />
                     <button>Notify owner</button>
-                </fetcher.Form>
+                </notifyOwnerFetch.Form>
 
-                {fetcher.data && (
-                    <p>{fetcher.data.message}</p>
+                {notifyOwnerFetch.data && (
+                    <p>{notifyOwnerFetch.data.message}</p>
                 )}
             </body>
         )
