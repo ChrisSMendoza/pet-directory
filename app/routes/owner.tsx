@@ -75,7 +75,14 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 </notifyOwnerFetch.Form>
 
                 {notifyOwnerFetch.data && (
-                    <p>{JSON.stringify(notifyOwnerFetch.data)}</p>
+                    <>
+                        <p>{notifyOwnerFetch.data.message.body}</p>
+                        <p>{notifyOwnerFetch.data.message.dateCreated.toDateString()}</p>
+                        <p>{notifyOwnerFetch.data.message.to}</p>
+                        <p>{notifyOwnerFetch.data.message.from}</p>
+
+                        {/* Omit `status` */}
+                    </>
                 )}
             </body>
         )
