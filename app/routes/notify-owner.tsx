@@ -14,6 +14,9 @@ export async function loader({ request }: { request: Request }) {
     let ownerId = url.searchParams.get("ownerId");
     let missingPetId = url.searchParams.get("missingPetId");
 
+    // throw'ing errors to have `message` be a consistent return value: { body, from, to, ... }, instead of string
+    // also seems better suited for a general error handler?
+
     if(!ownerId) {
         // TODO?: Attach `ownerId`?
         // TODO: Look into NOT using `data`, why not throw a regular error?
@@ -21,8 +24,8 @@ export async function loader({ request }: { request: Request }) {
     }
 
     if(!missingPetId) {
-
-        return { message: "Missing pet ID was not provided in request form data."}
+        // Shows error on screen with stacktrace.. Should be 404? Should just never happen?
+        throw Error("Missing pet ID was not provided in request form data");
     }
 
     const owner = findOwnerById(ownerId);
