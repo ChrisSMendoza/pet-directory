@@ -45,6 +45,7 @@ export async function loader({ request }: { request: Request }) {
     const fromPhoneNumber = "+18666257307";
     const toPhoneNumber = owner.phoneNumber;
 
+    // TODO: Get type from Twilio, or create one, but just have it be the SAME!
     const notifyOwnerMessage = {
         body: `
             Hello ${owner.name},
@@ -67,5 +68,8 @@ export async function loader({ request }: { request: Request }) {
     }
 
     // ASSUMING DEV ENVIRONMENT! (Less types for message in response (like "unknown SMS env"), which we're missing out on? How do we know for sure??
-    return { message: notifyOwnerMessage, SMS_ENV: TWILIO_ENV }
+    return { message: { ...notifyOwnerMessage, dateCreated: new Date(), status: 'queued' }, SMS_ENV: TWILIO_ENV }
 }
+
+
+// NOTE: Why are we using TSX for endpoints? Can I return components?
