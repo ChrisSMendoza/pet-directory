@@ -1,6 +1,7 @@
+import { useFetcher } from "react-router";
 import type { Route } from "./+types/owner";
 // import { useFetcher } from "react-router";
-// import type { loader } from "./search";
+import type { loader as notifyOwnerLoader } from "./notify-owner";
 
 // TODO: Handle multiple missing pets
 interface Owner {
@@ -50,6 +51,8 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function Owner({ loaderData, params }: Route.ComponentProps) {
     const { owner } = loaderData;
 
+    let fetcher = useFetcher<typeof notifyOwnerLoader>();
+    
     if(owner) {
         return (
             <body>
@@ -61,6 +64,15 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 <h2>Missing Pet</h2>
                 <p>{owner.missingPet?.name}</p>
                 <p>{owner.missingPet?.age}</p>
+
+                <fetcher.Form method="get" action="/notify">
+                    <input type="hidden" name="missingPetId" value={owner.missingPet?.id} />
+                    <button>Notify owner</button>
+                </fetcher.Form>
+
+                {fetcher.data && (
+                    <p>{fetcher.data.message}</p>
+                )}
             </body>
         )
     }
