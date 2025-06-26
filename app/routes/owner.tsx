@@ -3,26 +3,8 @@ import type { Route } from "./+types/owner";
 
 import type { Owner } from "~/owner-types";
 import type { loader as notifyOwnerLoader } from "./notify-owner";
+import { findOwnerById } from "~/mocks/owners";
 
-
-const OWNERS_MOCK: Owner[] = [
-    {
-        id: 1,
-        name: "Angel M",
-        phoneNumber: "+18777804236",
-        missingPet: {
-            id: 1,
-            name: "Chico",
-            age: 4
-        }
-    },
-    {
-        id: 2,
-        name: "Chris M",
-        phoneNumber: "+12092704012",
-        missingPet: null
-    }
-];
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -31,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-    const owner = OWNERS_MOCK.find(owner => owner.id === Number(params.ownerId));
+    const owner = findOwnerById(params.ownerId);
 
     return { owner };
 }

@@ -1,6 +1,6 @@
 import { data } from "react-router";
 import twilio from "twilio";
-
+// TODO: Shared in 2 places, when this is a DB call, they should come from the same place
 import { findOwnerById } from "~/mocks/owners";
 
 
