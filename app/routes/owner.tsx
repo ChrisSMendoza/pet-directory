@@ -66,6 +66,7 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 <p>{owner.missingPet?.age}</p>
 
                 <fetcher.Form method="get" action="/notify">
+                    <input type="hidden" name="ownerId" value={owner.id} />
                     <input type="hidden" name="missingPetId" value={owner.missingPet?.id} />
                     <button>Notify owner</button>
                 </fetcher.Form>

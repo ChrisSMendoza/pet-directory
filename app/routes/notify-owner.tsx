@@ -2,6 +2,7 @@
 
 export async function loader({ request }: { request: Request}) {
     let url = new URL(request.url);
+    let ownerId = url.searchParams.get("ownerId");
     let missingPetId = url.searchParams.get("missingPetId");
 
     // const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -17,5 +18,5 @@ export async function loader({ request }: { request: Request}) {
     //   to: toPhoneNumber,
     // });
   
-    return { message: `Notify owner via SMS that pet with ID ${missingPetId} was found!` };
+    return { message: `Notify owner (ID: ${ownerId}) via SMS that pet with ID ${missingPetId} was found!` };
 }
