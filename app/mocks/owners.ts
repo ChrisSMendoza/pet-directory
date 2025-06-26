@@ -1,16 +1,4 @@
-
-interface Owner {
-    id: number,
-    name: string,
-    phoneNumber: string,
-    missingPet: Pet | null
-}
-
-interface Pet {
-    id: number,
-    name: string,
-    age: number
-}
+import type { Owner } from "~/owner-types";
 
 export const OWNERS_MOCK: Owner[] = [
     {

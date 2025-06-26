@@ -1,21 +1,9 @@
 import { useFetcher } from "react-router";
 import type { Route } from "./+types/owner";
-// import { useFetcher } from "react-router";
+
+import type { Owner } from "~/owner-types";
 import type { loader as notifyOwnerLoader } from "./notify-owner";
 
-// TODO: Handle multiple missing pets
-interface Owner {
-    id: number,
-    name: string,
-    phoneNumber: string,
-    missingPet: Pet | null
-}
-
-interface Pet {
-    id: number,
-    name: string,
-    age: number
-}
 
 const OWNERS_MOCK: Owner[] = [
     {
