@@ -3,15 +3,20 @@ import twilio from "twilio";
 
 import { findOwnerById } from "~/mocks/owners";
 
+// TODO: Get from .env?
+const TWILIO_ENV: "dev" | "production" = "dev";
+
+// TODO: How we can we verify this is the right owner and pet? Like we can't trust the form right? Unless it has some timed hash? JWT?
 // Notify owner "request handler"
 // Find owner, validate missing pet, notify via SMS
-export async function loader({ request }: { request: Request}) {
+export async function loader({ request }: { request: Request }) {
     let url = new URL(request.url);
     let ownerId = url.searchParams.get("ownerId");
     let missingPetId = url.searchParams.get("missingPetId");
 
     if(!ownerId) {
         // TODO?: Attach `ownerId`?
+        // TODO: Look into NOT using `data`, why not throw a regular error?
         throw data("Owner ID was not provided in request form data.", { status: 404 });
     }
 
@@ -36,15 +41,31 @@ export async function loader({ request }: { request: Request}) {
     const fromPhoneNumber = "+18666257307";
     const toPhoneNumber = owner.phoneNumber;
 
-    const message = await twilioAPI.messages.create({
-        body: `Hello ${owner.name},
+    const notifyOwnerMessage = {
+        body: `
+            Hello ${owner.name},
             You're pet ${owner.missingPet.name} has been found!
-            He is being looked after at this facility:
-            [Insert facility details]
+            They're being looked after at this location:
+            [Insert location details]
         `,
         from: fromPhoneNumber,
         to: toPhoneNumber,
-    });
+    };
+    // TODO: Just depend on our env? Like dev shouldn't be charging anyway..?
+    if(TWILIO_ENV === "production") {
+        const message = await twilioAPI.messages.create(notifyOwnerMessage);
+        // TODO: To avoid `message` being returned, causes "cyclic object being serialized"
+        const { body, status, from, to, dateCreated } = message;
 
-    return { message: `Notify owner (ID: ${ownerId}) via SMS that pet with ID ${missingPetId} was found!` };
+        // TODO: Restrict view of `from` number? Only admins? Way into the future???
+        // TODO: Check message status? Try catch?
+        return { message: { body, status, from, to, dateCreated }};
+    }
+
+    if(TWILIO_ENV === "dev") {
+        // TODO: Update to use notifyOwnerMessage
+        return { message: `Notify owner (ID: ${ownerId}) via SMS that pet with ID ${missingPetId} was found!`, isTest: true };
+    }
+
+    return { message: "Unknown SMS environment"}
 }

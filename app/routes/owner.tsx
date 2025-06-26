@@ -48,6 +48,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     return { owner };
 }
 
+// TODO: Improve 404 page, like what's missing?
 export default function Owner({ loaderData, params }: Route.ComponentProps) {
     const { owner } = loaderData;
 
@@ -65,6 +66,8 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 <p>{owner.missingPet?.name}</p>
                 <p>{owner.missingPet?.age}</p>
 
+                {/* NOTE: Had issues running it through JS, onSubmit, data wouldn't appear.. */}
+                {/* TODO: Does doing this via JS / React Router make it more trustworthy? I'm leaning towards "No", but idk.. */}
                 <notifyOwnerFetch.Form method="get" action="/notify">
                     <input type="hidden" name="ownerId" value={owner.id} />
                     <input type="hidden" name="missingPetId" value={owner.missingPet?.id} />
@@ -72,7 +75,7 @@ export default function Owner({ loaderData, params }: Route.ComponentProps) {
                 </notifyOwnerFetch.Form>
 
                 {notifyOwnerFetch.data && (
-                    <p>{notifyOwnerFetch.data.message}</p>
+                    <p>{JSON.stringify(notifyOwnerFetch.data)}</p>
                 )}
             </body>
         )
