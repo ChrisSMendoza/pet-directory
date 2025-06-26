@@ -3,11 +3,12 @@ import type { Owner } from "~/owner-types";
 export const OWNERS_MOCK: Owner[] = [
     {
         id: 1,
-        name: "Angel M",
+        name: "John Dough",
+        // Note, real Twilio virtual phone number (not sure if expires)
         phoneNumber: "+18777804236",
         missingPet: {
             id: 1,
-            name: "Chico",
+            name: "Sparky",
             age: 4
         }
     },
